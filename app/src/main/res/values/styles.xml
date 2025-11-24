@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme -->
+    <style name="Theme.HabitTracker" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@color/gray_background</item>
+
+        <!-- Action bar -->
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarStyle">@style/ActionBar</item>
+
+        <!-- Window background -->
+        <item name="android:windowBackground">@color/gray_background</item>
+    </style>
+
+    <style name="ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="background">@color/gray_background</item>
+        <item name="elevation">0dp</item>
+    </style>
+</resources>

@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Streakfree app</string>
+    <string name="hello_user">¡Hola, [usuario]!</string>
+    <string name="subtitle">Sigue construyendo tus hábitos</string>
+    <string name="main_habit_title">Sin League of Legends</string>
+    <string name="main_habit_description">¡Increíble! Llevas 15 días sin jugar League of Legends.</string>
+    <string name="days_count">15 días</string>
+    <string name="this_week">Esta semana...</string>
+    <string name="achievements">🏆 Logros</string>
+    <string name="total_label">Total</string>
+    <string name="total_days">36 días</string>
+    <string name="best_streak_label">Mejor racha</string>
+    <string name="best_streak_days">18 días</string>
+    <string name="mark_failed">Marcar día\nfallado</string>
+    <string name="mark_completed">Marcar día completado</string>
+
+    <!-- Secondary habits -->
+    <string name="habit_lol">Sin League of\nLegends</string>
+    <string name="habit_smoke">Sin Fumar</string>
+    <string name="habit_alcohol">Sin Tomar\nalcohol</string>
+
+    <!-- Achievements -->
+    <string name="achievement_week">Primera\nSemana</string>
+    <string name="achievement_two_weeks">Dos\nSemanas</string>
+    <string name="achievement_month">Un Mes</string>
+    <string name="achievement_three_months">Tres Meses</string>
+    <string name="placeholder_title">PlaceHolder</string>
+    <string name="placeholder_subtitle">PlaceHolder</string>
+    <string name="login_tab">Iniciar Sesión</string>
+    <string name="register_tab">Registrarse</string>
+    <string name="email_hint">Correo electrónico</string>
+    <string name="password_hint">Contraseña</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="continue_with">O continúa con</string>
+    <string name="continue_google">Continuar con Google</string>
+    <string name="continue_facebook">Continuar con Facebook</string>
+    <string name="terms_privacy">Al continuar, aceptas nuestros Términos de Servicio y Política de Privacidad</string>
+
+    <!-- Validation Messages -->
+    <string name="error_email_empty">Ingrese su correo electrónico</string>
+    <string name="error_email_invalid">Correo electrónico inválido</string>
+    <string name="error_password_empty">Ingrese su contraseña</string>
+    <string name="error_password_short">La contraseña debe tener al menos 6 caracteres</string>
+
+    <!-- Toast Messages -->
+    <string name="logging_in">Iniciando sesión...</string>
+    <string name="go_to_register">Ir a registro</string>
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="login_google">Login con Google</string>
+    <string name="login_facebook">Login con Facebook</string>
+</resources>

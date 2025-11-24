@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="gray_background">#7a60ac</color>
+    <color name="purple_card">#4A3480</color>
+
+
+    <color name="purple_selected">#6B4FA0</color>
+    <color name="purple_dark">#4A3480</color>
+    <color name="purple_inactive">#4A3480</color>
+    <color name="purple_badge">#6B4FA0</color>
+    <color name="purple_badge_locked">#4A3480</color>
+
+    <!-- Gradient colors -->
+    <color name="gradient_pink">#E91E63</color>
+    <color name="gradient_purple">#9C27B0</color>
+    <color name="gradient_deep_purple">#673AB7</color>
+
+    <!-- Button colors -->
+    <color name="red_failed">#D32F2F</color>
+    <color name="green_completed">#4CAF50</color>
+
+    <!-- Material Design colors (required) -->
+    <color name="colorPrimary">#7C4DFF</color>
+    <color name="colorPrimaryDark">#2D1B69</color>
+    <color name="colorAccent">#E91E63</color>
+
+    <!-- Colores compatibles con API 22 -->
+    <color name="colorPrimary_login">#8B5FBF</color>
+    <color name="colorPrimaryDark_login">#6B59A1</color>
+    <color name="colorAccent_login">#2ECC40</color>
+
+    <!-- Colores del tema -->
+    <color name="purple_gradient_start">#8B5FBF</color>
+    <color name="purple_gradient_center">#7B5CB0</color>
+    <color name="purple_gradient_end">#6B59A1</color>
+
+    <color name="green_button">#2ECC40</color>
+    <color name="green_button_pressed">#28A745</color>
+
+    <color name="facebook_blue">#4267B2</color>
+    <color name="facebook_blue_pressed">#3b5998</color>
+
+    <color name="white_transparent_light">#22FFFFFF</color>
+    <color name="white_transparent_medium">#44FFFFFF</color>
+    <color name="white_transparent_strong">#66FFFFFF</color>
+
+    <color name="text_white_primary">#FFFFFF</color>
+    <color name="text_white_secondary">#CCFFFFFF</color>
+    <color name="text_white_hint">#99FFFFFF</color>
+
+    <!-- Colores básicos necesarios -->
+    <color name="transparent">#00000000</color>
+</resources>
