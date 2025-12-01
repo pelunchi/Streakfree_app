@@ -132,7 +132,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         textViewForgotPassword.setOnClickListener {
-            Toast.makeText(this, "Función de recuperación en desarrollo", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Funcion de recuperación en desarrollo...", Toast.LENGTH_SHORT).show()
         }
 
         imageViewShowPassword.setOnClickListener {

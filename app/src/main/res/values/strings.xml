@@ -49,4 +49,5 @@
     <string name="recover_password">Recuperar contraseña</string>
     <string name="login_google">Login con Google</string>
     <string name="login_facebook">Login con Facebook</string>
+    <string name="hacia_tu_mejor_version">Hacia tu mejor version</string>
 </resources>
