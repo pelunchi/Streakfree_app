@@ -14,9 +14,9 @@
 
         <!-- Header -->
         <RelativeLayout
-            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp">
 
             <LinearLayout
@@ -120,19 +120,18 @@
                         android:id="@+id/txt_current_streak"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:layout_marginEnd="5dp"
                         android:text="0"
                         android:textAlignment="textEnd"
-                        android:layout_marginEnd="5dp"
                         android:textColor="@android:color/white"
                         android:textSize="48sp"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🔥"
                         android:layout_marginBottom="4dp"
+                        android:text="🔥"
                         android:textSize="28sp" />
 
 
@@ -203,55 +202,55 @@
             android:orientation="horizontal">
 
             <include
-                layout="@layout/item_day_indicator"
                 android:id="@+id/day_l"
+                layout="@layout/item_day_indicator"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginRight="4dp" />
 
             <include
-                layout="@layout/item_day_indicator"
                 android:id="@+id/day_m"
+                layout="@layout/item_day_indicator"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp" />
 
             <include
-                layout="@layout/item_day_indicator"
                 android:id="@+id/day_mi"
+                layout="@layout/item_day_indicator"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp" />
 
             <include
-                layout="@layout/item_day_indicator"
                 android:id="@+id/day_j"
+                layout="@layout/item_day_indicator"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp" />
 
             <include
-                layout="@layout/item_day_indicator"
                 android:id="@+id/day_v"
+                layout="@layout/item_day_indicator"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp" />
 
             <include
-                layout="@layout/item_day_indicator"
                 android:id="@+id/day_s"
+                layout="@layout/item_day_indicator"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp" />
 
             <include
-                layout="@layout/item_day_indicator"
                 android:id="@+id/day_d"
+                layout="@layout/item_day_indicator"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginLeft="4dp" />
