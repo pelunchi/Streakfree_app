@@ -16,6 +16,7 @@ import com.example.streakfreeapp.data.models.DailyLog
 import com.example.streakfreeapp.utils.PreferencesManager
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import android.widget.ScrollView
 
 class HomeFragment : Fragment() {
 
@@ -35,6 +36,7 @@ class HomeFragment : Fragment() {
     private lateinit var txtTotalDays: TextView
     private lateinit var btnCompleted: CardView
     private lateinit var btnFailed: CardView
+    private lateinit var homeScrollView: ScrollView
 
     // Tarjetas secundarias
     private lateinit var habitLolCard: CardView
@@ -58,10 +60,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Aplicar tema inmediatamente
-        applyTheme()
-
         initViews(view)
+        applyTheme() // Aplicar tema al crear la vista
+
         dbHelper = DatabaseHelper(requireContext())
         prefsManager = PreferencesManager(requireContext())
         currentUserId = prefsManager.getUserId()
@@ -78,15 +79,11 @@ class HomeFragment : Fragment() {
         loadAddictions()
         updateDayIndicators()
         setupClickListeners()
-    }
-
-    private fun applyTheme() {
-        val prefsManager = PreferencesManager(requireContext())
-        val themeResId = prefsManager.getThemeDrawable()
-        requireActivity().window.setBackgroundDrawableResource(themeResId)
+        updateGreeting() // 👈 Actualizar saludo con nombre real
     }
 
     private fun initViews(view: View) {
+        homeScrollView = view.findViewById(R.id.homeScrollView)
         txtMainTitle = view.findViewById(R.id.txt_main_title)
         emojiOne = view.findViewById(R.id.emoji_one)
         emojiTwo = view.findViewById(R.id.emoji_two)
@@ -104,6 +101,17 @@ class HomeFragment : Fragment() {
         itemAchievementTwo = view.findViewById(R.id.item_achievement_two)
         itemAchievementThree = view.findViewById(R.id.item_achievement_three)
         itemAchievementFour = view.findViewById(R.id.item_achievement_four)
+    }
+
+    private fun applyTheme() {
+        val prefsManager = PreferencesManager(requireContext())
+        val themeResId = prefsManager.getThemeDrawable()
+
+        // Aplicar a la Activity (para ProfileFragment)
+        requireActivity().window.setBackgroundDrawableResource(themeResId)
+
+        // Aplicar al ScrollView de HomeFragment
+        homeScrollView.setBackgroundResource(themeResId)
     }
 
     private fun loadAddictions() {
@@ -386,6 +394,14 @@ class HomeFragment : Fragment() {
                 checkIcon.visibility = View.GONE
             }
         }
+    }
+
+    private fun updateGreeting() {
+        val user = dbHelper.getUser(currentUserId)
+        val userName = user?.username ?: "usuario"
+        val greetingText = "¡Hola, $userName!"
+        val textViewGreeting = view?.findViewById<TextView>(R.id.textViewGreeting)
+        textViewGreeting?.text = greetingText
     }
 
     private fun showTimeRemainingToast() {

@@ -115,7 +115,7 @@
                     <EditText
                         android:id="@+id/editTextEmail"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:hint="Correo electrónico o Nombre de usuario"
@@ -147,7 +147,7 @@
                     <EditText
                         android:id="@+id/editTextPassword"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:hint="Contraseña"
