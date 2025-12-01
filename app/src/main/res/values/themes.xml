@@ -9,7 +9,7 @@
 
     <style name="Theme.StreakfreeApp" parent="Base.Theme.StreakfreeApp" />
 
-    <!-- Tema SOLO para Login (sin Material Design) -->
+    <!-- Tema para el Login -->
     <style name="Theme.StreakfreeApp.Login" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#8B5FBF</item>
         <item name="colorPrimaryDark">#6B59A1</item>
