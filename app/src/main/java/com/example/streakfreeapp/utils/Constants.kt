@@ -9,6 +9,8 @@ object Constants {
     const val PREF_THEME = "theme_gradient"
     const val PREF_IS_LOGGED_IN = "is_logged_in"
 
+    const val MAX_ADDICTIONS = 5
+
     // Base de datos
     const val DATABASE_NAME = "StreakFree.db"
     const val DATABASE_VERSION = 1
