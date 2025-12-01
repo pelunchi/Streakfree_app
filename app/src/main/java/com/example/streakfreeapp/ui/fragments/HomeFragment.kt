@@ -1,5 +1,6 @@
 package com.example.streakfreeapp.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,11 @@ class HomeFragment : Fragment() {
     private lateinit var txtMainTitle: TextView
     private lateinit var emojiOne: TextView
     private lateinit var emojiTwo: TextView
+
+    private lateinit var txtFueguito: TextView
+
+    private lateinit var txtStreakLabel: TextView
+
     private lateinit var txtCurrentStreak: TextView
     private lateinit var txtBestStreak: TextView
     private lateinit var txtTotalDays: TextView
@@ -90,6 +96,8 @@ class HomeFragment : Fragment() {
         txtTotalDays = view.findViewById(R.id.txt_total_days)
         btnCompleted = view.findViewById(R.id.btn_completed)
         btnFailed = view.findViewById(R.id.btn_failed)
+        txtFueguito = view.findViewById(R.id.txt_fueguito)
+        txtStreakLabel = view.findViewById(R.id.txt_streak_label)
 
         secondaryHabitsContainer = view.findViewById(R.id.secondaryHabitsContainer)
 
@@ -119,18 +127,30 @@ class HomeFragment : Fragment() {
         updateAchievements(currentAddiction!!)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun updateMainCard(addiction: Addiction) {
         txtMainTitle.text = addiction.name
-        emojiOne.text = addiction.icon
-        emojiTwo.text = "🎯"
+        emojiOne.text = "\uD83D\uDEAB"
+        emojiTwo.text = addiction.icon
         txtCurrentStreak.text = addiction.currentStreak.toString()
-        txtBestStreak.text = "${addiction.bestStreak} días"
+        txtCurrentStreak.visibility = View.VISIBLE
+                if (addiction.currentStreak > 0) {
+                    txtFueguito.visibility = View.VISIBLE
+                    txtStreakLabel.visibility = View.VISIBLE
+                    txtStreakLabel.text = "día${if (addiction.currentStreak == 1) "" else "s"}"
+                } else {
+                    txtCurrentStreak.text = "0"
+                    txtFueguito.visibility = View.GONE
+                    txtStreakLabel.text = " días"
+                }
+
+        txtBestStreak.text = "${addiction.bestStreak} día${if (addiction.bestStreak == 1) "" else "s"}"
         val totalDays = dbHelper.getAddictionLogs(addiction.id).size
-        txtTotalDays.text = "$totalDays días"
+        txtTotalDays.text = "$totalDays día${if (totalDays == 1) "" else "s"}"
     }
 
     private fun updateSecondaryCards(addictions: List<Addiction>) {
-        // Limpiar el contenedor
+
         secondaryHabitsContainer.removeAllViews()
 
         addictions.forEach { addiction ->
@@ -151,21 +171,22 @@ class HomeFragment : Fragment() {
             radius = 16f
         }
 
-        // Crear layout interno
+
         val layout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
             gravity = android.view.Gravity.CENTER
             setPadding(12.dpToPx(requireContext()), 12.dpToPx(requireContext()), 12.dpToPx(requireContext()), 12.dpToPx(requireContext()))
         }
 
-        // Icono (emoji)
+
+
         val iconText = TextView(requireContext()).apply {
-            text = addiction.icon
+            text = "\uD83D\uDEAB" + addiction.icon
             textSize = 24f
             gravity = android.view.Gravity.CENTER
         }
 
-        // Nombre de la adicción
+
         val nameText = TextView(requireContext()).apply {
             text = addiction.name
             textSize = 12f
@@ -177,13 +198,15 @@ class HomeFragment : Fragment() {
         // Streak de la adicción
         val streakText = TextView(requireContext()).apply {
             text = if (addiction.currentStreak > 0) {
-                "${addiction.currentStreak} día${if (addiction.currentStreak > 1) "s" else ""}"
+                "${addiction.currentStreak} día${if (addiction.currentStreak == 1) "" else "s"}"
+            } else if (addiction.bestStreak == 0 ) {
+                "0 días"
             } else {
                 "Racha perdida"
             }
             textSize = 10f
             gravity = android.view.Gravity.CENTER
-            setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
 
         layout.addView(iconText)
@@ -191,10 +214,9 @@ class HomeFragment : Fragment() {
         layout.addView(streakText)
         card.addView(layout)
 
-        // ✅ Usar tus drawables exactos
+
         if (currentAddiction?.id == addiction.id) {
             card.background = ContextCompat.getDrawable(requireContext(), R.drawable.selected_card)
-            // Cambiar texto a blanco para mejor contraste
             iconText.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
             nameText.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
             streakText.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
