@@ -12,28 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StreakfreeApp">
 
-
-
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name=".ui.activities.splash_screen"
+            android:noHistory="true"
+            android:theme="@style/Theme.StreakfreeApp.Login"
             android:exported="true">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity
+        android:name=".ui.activities.LoginActivity"
+        android:exported="true"
+        android:theme="@style/Theme.StreakfreeApp.Login" />
+
 
         <activity
             android:name=".ui.activities.main"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

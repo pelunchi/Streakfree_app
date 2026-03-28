@@ -10,7 +10,7 @@ data class Addiction(
     var id: Int = 0,
     var userId: Int,
     var name: String,
-    var icon: String = "🎯",
+    var icon: String = "\uD83D\uDEAB",
     var currentStreak: Int = 0,
     var bestStreak: Int = 0,
     var lastUpdate: Long = System.currentTimeMillis(),

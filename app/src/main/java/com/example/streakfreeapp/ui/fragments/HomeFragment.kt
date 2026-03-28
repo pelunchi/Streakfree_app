@@ -1,5 +1,6 @@
 package com.example.streakfreeapp.ui.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,8 @@ import com.example.streakfreeapp.data.models.DailyLog
 import com.example.streakfreeapp.utils.PreferencesManager
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import android.widget.ScrollView
+import android.widget.LinearLayout
 
 class HomeFragment : Fragment() {
 
@@ -30,16 +33,20 @@ class HomeFragment : Fragment() {
     private lateinit var txtMainTitle: TextView
     private lateinit var emojiOne: TextView
     private lateinit var emojiTwo: TextView
+
+    private lateinit var txtFueguito: TextView
+
+    private lateinit var txtStreakLabel: TextView
+
     private lateinit var txtCurrentStreak: TextView
     private lateinit var txtBestStreak: TextView
     private lateinit var txtTotalDays: TextView
     private lateinit var btnCompleted: CardView
     private lateinit var btnFailed: CardView
+    private lateinit var homeScrollView: ScrollView
 
-    // Tarjetas secundarias
-    private lateinit var habitLolCard: CardView
-    private lateinit var habitSmokeCard: CardView
-    private lateinit var habitAlcoholCard: CardView
+    // Contenedor de tarjetas secundarias (scrollable)
+    private lateinit var secondaryHabitsContainer: LinearLayout
 
     // Logros
     private lateinit var itemAchievementOne: View
@@ -58,10 +65,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Aplicar tema inmediatamente
-        applyTheme()
-
         initViews(view)
+        applyTheme()
         dbHelper = DatabaseHelper(requireContext())
         prefsManager = PreferencesManager(requireContext())
         currentUserId = prefsManager.getUserId()
@@ -78,15 +83,11 @@ class HomeFragment : Fragment() {
         loadAddictions()
         updateDayIndicators()
         setupClickListeners()
-    }
-
-    private fun applyTheme() {
-        val prefsManager = PreferencesManager(requireContext())
-        val themeResId = prefsManager.getThemeDrawable()
-        requireActivity().window.setBackgroundDrawableResource(themeResId)
+        updateGreeting()
     }
 
     private fun initViews(view: View) {
+        homeScrollView = view.findViewById(R.id.homeScrollView)
         txtMainTitle = view.findViewById(R.id.txt_main_title)
         emojiOne = view.findViewById(R.id.emoji_one)
         emojiTwo = view.findViewById(R.id.emoji_two)
@@ -95,15 +96,22 @@ class HomeFragment : Fragment() {
         txtTotalDays = view.findViewById(R.id.txt_total_days)
         btnCompleted = view.findViewById(R.id.btn_completed)
         btnFailed = view.findViewById(R.id.btn_failed)
+        txtFueguito = view.findViewById(R.id.txt_fueguito)
+        txtStreakLabel = view.findViewById(R.id.txt_streak_label)
 
-        habitLolCard = view.findViewById(R.id.habit_lol_card)
-        habitSmokeCard = view.findViewById(R.id.habit_smoke_card)
-        habitAlcoholCard = view.findViewById(R.id.habit_alcohol_card)
+        secondaryHabitsContainer = view.findViewById(R.id.secondaryHabitsContainer)
 
         itemAchievementOne = view.findViewById(R.id.item_achievement_one)
         itemAchievementTwo = view.findViewById(R.id.item_achievement_two)
         itemAchievementThree = view.findViewById(R.id.item_achievement_three)
         itemAchievementFour = view.findViewById(R.id.item_achievement_four)
+    }
+
+    private fun applyTheme() {
+        val prefsManager = PreferencesManager(requireContext())
+        val themeResId = prefsManager.getThemeDrawable()
+        requireActivity().window.setBackgroundDrawableResource(themeResId)
+        homeScrollView.setBackgroundResource(themeResId)
     }
 
     private fun loadAddictions() {
@@ -119,41 +127,118 @@ class HomeFragment : Fragment() {
         updateAchievements(currentAddiction!!)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun updateMainCard(addiction: Addiction) {
         txtMainTitle.text = addiction.name
-        emojiOne.text = addiction.icon
-        emojiTwo.text = "🎯"
+        emojiOne.text = "\uD83D\uDEAB"
+        emojiTwo.text = addiction.icon
         txtCurrentStreak.text = addiction.currentStreak.toString()
-        txtBestStreak.text = "${addiction.bestStreak} días"
+        txtCurrentStreak.visibility = View.VISIBLE
+                if (addiction.currentStreak > 0) {
+                    txtFueguito.visibility = View.VISIBLE
+                    txtStreakLabel.visibility = View.VISIBLE
+                    txtStreakLabel.text = "día${if (addiction.currentStreak == 1) "" else "s"}"
+                } else {
+                    txtCurrentStreak.text = "0"
+                    txtFueguito.visibility = View.GONE
+                    txtStreakLabel.text = " días"
+                }
+
+        txtBestStreak.text = "${addiction.bestStreak} día${if (addiction.bestStreak == 1) "" else "s"}"
         val totalDays = dbHelper.getAddictionLogs(addiction.id).size
-        txtTotalDays.text = "$totalDays días"
+        txtTotalDays.text = "$totalDays día${if (totalDays == 1) "" else "s"}"
     }
 
     private fun updateSecondaryCards(addictions: List<Addiction>) {
-        val habitCards = listOf(habitLolCard, habitSmokeCard, habitAlcoholCard)
 
-        habitCards.forEach { card ->
-            card.tag = null
-            card.visibility = View.GONE
+        secondaryHabitsContainer.removeAllViews()
+
+        addictions.forEach { addiction ->
+            val card = createAddictionCard(addiction)
+            secondaryHabitsContainer.addView(card)
         }
+    }
 
-        addictions.forEachIndexed { index, addiction ->
-            if (index < habitCards.size) {
-                val card = habitCards[index]
-                card.tag = addiction.id
-
-                val nameText = card.findViewById<TextView>(R.id.txt_name)
-                val streakText = card.findViewById<TextView>(R.id.txt_streak)
-                nameText.text = addiction.name
-                streakText.text = if (addiction.currentStreak > 0) {
-                    "${addiction.currentStreak} día${if (addiction.currentStreak > 1) "s" else ""}"
-                } else {
-                    "Racha perdida"
-                }
-
-                card.visibility = View.VISIBLE
+    private fun createAddictionCard(addiction: Addiction): CardView {
+        val card = CardView(requireContext()).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                120.dpToPx(requireContext()),
+                136.dpToPx(requireContext())
+            ).apply {
+                marginStart = 8.dpToPx(requireContext())
+                marginEnd = 8.dpToPx(requireContext())
             }
+            radius = 16f
         }
+
+
+        val layout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = android.view.Gravity.CENTER
+            setPadding(12.dpToPx(requireContext()), 12.dpToPx(requireContext()), 12.dpToPx(requireContext()), 12.dpToPx(requireContext()))
+        }
+
+
+
+        val iconText = TextView(requireContext()).apply {
+            text = "\uD83D\uDEAB" + addiction.icon
+            textSize = 24f
+            gravity = android.view.Gravity.CENTER
+        }
+
+
+        val nameText = TextView(requireContext()).apply {
+            text = addiction.name
+            textSize = 12f
+            maxLines = 2
+            ellipsize = android.text.TextUtils.TruncateAt.END
+            gravity = android.view.Gravity.CENTER
+        }
+
+        // Streak de la adicción
+        val streakText = TextView(requireContext()).apply {
+            text = if (addiction.currentStreak > 0) {
+                "${addiction.currentStreak} día${if (addiction.currentStreak == 1) "" else "s"}"
+            } else if (addiction.bestStreak == 0 ) {
+                "0 días"
+            } else {
+                "Racha perdida"
+            }
+            textSize = 10f
+            gravity = android.view.Gravity.CENTER
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        }
+
+        layout.addView(iconText)
+        layout.addView(nameText)
+        layout.addView(streakText)
+        card.addView(layout)
+
+
+        if (currentAddiction?.id == addiction.id) {
+            card.background = ContextCompat.getDrawable(requireContext(), R.drawable.selected_card)
+            iconText.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+            nameText.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+            streakText.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+        } else {
+            card.background = ContextCompat.getDrawable(requireContext(), R.drawable.habit_card_default)
+            // Texto negro para fondo blanco
+            iconText.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            nameText.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            streakText.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        }
+
+        // Click listener
+        card.setOnClickListener {
+            currentAddiction = addiction
+            updateMainCard(addiction)
+            updateAchievements(addiction)
+            updateSecondaryCards(dbHelper.getUserAddictions(currentUserId))
+            updateDayIndicators()
+            Toast.makeText(requireContext(), "Seleccionada: ${addiction.name}", Toast.LENGTH_SHORT).show()
+        }
+
+        return card
     }
 
     private fun updateAchievements(addiction: Addiction) {
@@ -195,50 +280,17 @@ class HomeFragment : Fragment() {
         btnFailed.setOnClickListener {
             failCurrentDay()
         }
-
-        val habitCards = listOf(habitLolCard, habitSmokeCard, habitAlcoholCard)
-        habitCards.forEach { card ->
-            card.setOnClickListener {
-                selectHabitCard(card, habitCards)
-            }
-        }
-    }
-
-    private fun selectHabitCard(cardToSelect: CardView, allCards: List<CardView>) {
-        allCards.forEach { card ->
-            card.background = ContextCompat.getDrawable(requireContext(), R.drawable.habit_card_default)
-        }
-        cardToSelect.background = ContextCompat.getDrawable(requireContext(), R.drawable.selected_card)
-
-        val habitId = cardToSelect.tag as? Int
-        if (habitId == null) {
-            Toast.makeText(requireContext(), "Tarjeta sin adicción asociada", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        currentAddiction = dbHelper.getUserAddictions(currentUserId).firstOrNull { it.id == habitId }
-        if (currentAddiction != null) {
-            updateMainCard(currentAddiction!!)
-            updateAchievements(currentAddiction!!)
-            updateSecondaryCards(dbHelper.getUserAddictions(currentUserId))
-            updateDayIndicators()
-            Toast.makeText(requireContext(), "Seleccionada: ${currentAddiction!!.name}", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(requireContext(), "Adicción no encontrada", Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun completeCurrentDay() {
         val addiction = currentAddiction ?: return
 
-        // Verificar si ya se registró HOY
         if (hasTodayLog(addiction.id)) {
             Toast.makeText(requireContext(), "Ya registraste una acción hoy para esta adicción", Toast.LENGTH_SHORT).show()
             showTimeRemainingToast()
             return
         }
 
-        // Registrar como completado
         addiction.incrementStreak()
         dbHelper.updateAddiction(addiction)
 
@@ -261,14 +313,12 @@ class HomeFragment : Fragment() {
     private fun failCurrentDay() {
         val addiction = currentAddiction ?: return
 
-        // Verificar si ya se registró HOY
         if (hasTodayLog(addiction.id)) {
             Toast.makeText(requireContext(), "Ya registraste una acción hoy para esta adicción", Toast.LENGTH_SHORT).show()
             showTimeRemainingToast()
             return
         }
 
-        // Registrar como fallido
         addiction.resetStreak()
         dbHelper.updateAddiction(addiction)
 
@@ -312,7 +362,6 @@ class HomeFragment : Fragment() {
             requireView().findViewById<CardView>(R.id.day_d)
         )
 
-        // Obtener el índice del día actual (0=L, 1=M, ..., 6=D)
         val calendar = Calendar.getInstance()
         val todayIndex = when (calendar.get(Calendar.DAY_OF_WEEK)) {
             Calendar.MONDAY -> 0
@@ -325,7 +374,6 @@ class HomeFragment : Fragment() {
             else -> 0
         }
 
-        // Obtener todos los logs de la adicción actual
         val logs = currentAddiction?.let { dbHelper.getAddictionLogs(it.id) } ?: emptyList()
 
         dayViews.forEachIndexed { index, card ->
@@ -334,7 +382,6 @@ class HomeFragment : Fragment() {
             val checkIcon = card.findViewById<TextView>(R.id.check_icon)
 
             if (currentAddiction != null) {
-                // Buscar un log para este día específico
                 val dayLog = logs.firstOrNull { log ->
                     val logCalendar = Calendar.getInstance().apply { timeInMillis = log.date }
                     val logIndex = when (logCalendar.get(Calendar.DAY_OF_WEEK)) {
@@ -388,6 +435,14 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun updateGreeting() {
+        val user = dbHelper.getUser(currentUserId)
+        val userName = user?.username ?: "usuario"
+        val greetingText = "¡Hola, $userName!"
+        val textViewGreeting = view?.findViewById<TextView>(R.id.textViewGreeting)
+        textViewGreeting?.text = greetingText
+    }
+
     private fun showTimeRemainingToast() {
         val now = System.currentTimeMillis()
         val tomorrowStart = getStartOfNextDay(now)
@@ -418,4 +473,9 @@ class HomeFragment : Fragment() {
         cal.set(Calendar.MILLISECOND, 0)
         return cal.timeInMillis
     }
+}
+
+// Extension function para convertir dp a px
+fun Int.dpToPx(context: android.content.Context): Int {
+    return (this * context.resources.displayMetrics.density).toInt()
 }

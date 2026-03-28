@@ -121,7 +121,7 @@ class LoginActivity : AppCompatActivity() {
             showRegisterTab()
         }
 
-        // Login
+        //Login
         buttonLogin.setOnClickListener {
             val usernameOrEmail = editTextEmail.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
@@ -132,14 +132,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         textViewForgotPassword.setOnClickListener {
-            Toast.makeText(this, "Función de recuperación en desarrollo", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Funcion de recuperación en desarrollo...", Toast.LENGTH_SHORT).show()
         }
 
         imageViewShowPassword.setOnClickListener {
             togglePasswordVisibility(editTextPassword, imageViewShowPassword, 0)
         }
 
-        // Registro
+        //Registro
         buttonRegister.setOnClickListener {
             val username = editTextName.text.toString().trim()
             val email = editTextEmailRegister.text.toString().trim()
@@ -161,11 +161,11 @@ class LoginActivity : AppCompatActivity() {
 
         // Botones sociales
         buttonLoginGoogle.setOnClickListener {
-            Toast.makeText(this, "Login con Google - Próximamente", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Login con Google - Se acabo el presupuesto...", Toast.LENGTH_SHORT).show()
         }
 
         buttonLoginFacebook.setOnClickListener {
-            Toast.makeText(this, "Login con Facebook - Próximamente", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Login con Facebook - Se acabo el presupuesto...", Toast.LENGTH_SHORT).show()
         }
     }
 

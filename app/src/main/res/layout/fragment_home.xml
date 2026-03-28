@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:clipToPadding="false"
+    android:paddingTop="24dp"
+    android:paddingBottom="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +18,6 @@
 
         <!-- Header -->
         <RelativeLayout
-            android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp">
@@ -22,11 +25,12 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textViewGreeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="¡Hola, usuario!"
@@ -43,25 +47,9 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                app:cardBackgroundColor="@color/gray_background"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="🏆"
-                    android:textSize="24sp" />
-            </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
-        <!-- Main Card - Sin League of Legends -->
+        <!-- Main Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="180dp"
@@ -86,14 +74,14 @@
                         android:id="@+id/emoji_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="🚫"
+                        android:text=""
                         android:textSize="32sp" />
 
                     <TextView
                         android:id="@+id/emoji_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:text=""
                         android:textSize="32sp" />
                 </LinearLayout>
@@ -103,159 +91,164 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Agrega una adicción"
+                    android:text="Agrega una adicción..."
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginTop="1dp"
-                    android:gravity="bottom"
+                    android:gravity="center_horizontal|bottom"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/txt_current_streak"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:text="0"
-                        android:textAlignment="textEnd"
-                        android:layout_marginEnd="5dp"
+                        android:text=""
+                        android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="48sp"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/txt_fueguito"
+                        android:layout_marginBottom="3dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔥"
-                        android:layout_marginBottom="4dp"
-                        android:textSize="28sp" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-
-                        android:text="días"
+                        android:layout_height="42dp"
+                        android:text=""
+                        android:textAlignment="center"
                         android:textColor="@android:color/white"
-                        android:textSize="22sp" />
+                        android:textSize="30sp"
+                        android:alpha="0.9" />
+
+                    <TextView
+                        android:id="@+id/txt_streak_label"
+                        android:layout_marginBottom="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="25sp"
+                        android:alpha="0.9" />
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Secondary Habits Row -->
-        <LinearLayout
+        <!-- Secondary Habits Row - Scrollable -->
+        <HorizontalScrollView
+            android:id="@+id/secondaryHabitsScroll"
             android:layout_width="match_parent"
             android:layout_height="136dp"
-            android:layout_marginBottom="0dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_marginTop="16dp"
+            android:scrollbars="none"
+            android:contentDescription="Desplázate horizontalmente para ver más adicciones">
 
-            <include
-                android:id="@+id/habit_lol_card"
-                layout="@layout/item_small_habit"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_marginRight="6dp"
-                android:layout_weight="1" />
-
-
-            <include
-                android:id="@+id/habit_smoke_card"
-                layout="@layout/item_small_habit_smoke"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_weight="1" />
-
-            <include
-                android:id="@+id/habit_alcohol_card"
-                layout="@layout/item_small_habit_alcohol"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:layout_marginLeft="6dp"
-                android:layout_weight="1" />
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/secondaryHabitsContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingEnd="16dp" />
+        </HorizontalScrollView>
 
         <!-- Week Progress Title -->
         <TextView
+            android:id="@+id/weekTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:text="Esta semana..."
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="Título: Esta semana" />
 
-        <!-- Week Days -->
-        <LinearLayout
+        <!-- Week Days - Responsive -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/weekDaysContainer"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginBottom="12dp">
 
+            <!-- 7 días con 13.5% cada uno (13.5 * 7 = 94.5%, dejando espacio para márgenes) -->
             <include
                 layout="@layout/item_day_indicator"
                 android:id="@+id/day_l"
-                android:layout_width="44dp"
+                android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_marginRight="4dp" />
+                app:layout_constraintWidth_percent="0.135"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/day_m"
+                app:layout_constraintHorizontal_chainStyle="spread" />
 
             <include
                 layout="@layout/item_day_indicator"
                 android:id="@+id/day_m"
-                android:layout_width="44dp"
+                android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp" />
+                app:layout_constraintWidth_percent="0.135"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/day_l"
+                app:layout_constraintEnd_toStartOf="@id/day_mi" />
 
             <include
                 layout="@layout/item_day_indicator"
                 android:id="@+id/day_mi"
-                android:layout_width="44dp"
+                android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp" />
+                app:layout_constraintWidth_percent="0.135"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/day_m"
+                app:layout_constraintEnd_toStartOf="@id/day_j" />
 
             <include
                 layout="@layout/item_day_indicator"
                 android:id="@+id/day_j"
-                android:layout_width="44dp"
+                android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp" />
+                app:layout_constraintWidth_percent="0.135"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/day_mi"
+                app:layout_constraintEnd_toStartOf="@id/day_v" />
 
             <include
                 layout="@layout/item_day_indicator"
                 android:id="@+id/day_v"
-                android:layout_width="44dp"
+                android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp" />
+                app:layout_constraintWidth_percent="0.135"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/day_j"
+                app:layout_constraintEnd_toStartOf="@id/day_s" />
 
             <include
                 layout="@layout/item_day_indicator"
                 android:id="@+id/day_s"
-                android:layout_width="44dp"
+                android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp" />
+                app:layout_constraintWidth_percent="0.135"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/day_v"
+                app:layout_constraintEnd_toStartOf="@id/day_d" />
 
             <include
                 layout="@layout/item_day_indicator"
                 android:id="@+id/day_d"
-                android:layout_width="44dp"
+                android:layout_width="0dp"
                 android:layout_height="44dp"
-                android:layout_marginLeft="4dp" />
+                app:layout_constraintWidth_percent="0.135"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/day_s"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Stats Row -->
         <LinearLayout
@@ -269,7 +262,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="85dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 app:cardBackgroundColor="#7D5DB4"
                 app:cardCornerRadius="16dp"
@@ -281,21 +274,34 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:alpha="0.7"
-                        android:text="Total"
-                        android:textColor="@android:color/white"
-                        android:textSize="12sp" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎯"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:alpha="0.7"
+                            android:text="Total de días"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/txt_total_days"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="36 días"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:text="Aun no existe una adicción"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -305,7 +311,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="85dp"
-                android:layout_marginLeft="6dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 app:cardBackgroundColor="#7D5DB4"
                 app:cardCornerRadius="16dp"
@@ -331,7 +337,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
+                            android:layout_marginStart="4dp"
                             android:alpha="0.7"
                             android:text="Mejor racha"
                             android:textColor="@android:color/white"
@@ -344,7 +350,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="2dp"
-                        android:text="18 días"
+                        android:text="Aun no existe una adicción"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -360,11 +366,10 @@
             android:text="🏆 Logros"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:contentDescription="Título: Logros" />
 
         <!-- Achievements Row -->
-
-        <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -375,32 +380,36 @@
             <include
                 android:id="@+id/item_achievement_one"
                 layout="@layout/item_achievement_one"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="8dp" />
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp" />
 
             <include
                 android:id="@+id/item_achievement_two"
                 layout="@layout/item_achievement_two"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp" />
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp" />
 
             <include
                 android:id="@+id/item_achievement_three"
                 layout="@layout/item_achievement_three"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp" />
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp" />
 
             <include
                 android:id="@+id/item_achievement_four"
                 layout="@layout/item_achievement_four"
-                android:layout_width="70dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp" />
+                android:layout_weight="1"
+                android:layout_marginStart="4dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -410,18 +419,19 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-        <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/btn_failed"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/red_failed"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                android:contentDescription="Botón: Marcar día fallado">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -430,20 +440,21 @@
                     android:text="Marcar día fallado"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/btn_completed"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="6dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/green_completed"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="8dp">
+                app:cardElevation="8dp"
+                android:contentDescription="Botón: Marcar día completado">
 
                 <TextView
                     android:layout_width="match_parent"
